@@ -1,0 +1,1 @@
+C:\DEV\sdp_automatic_tests\test2xml\trunk\src\CabExtract\bin\Debug\CabExtract.exe.config

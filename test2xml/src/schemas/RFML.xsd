@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:codegen="urn:schemas-microsoft-com:xml-msprop" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mstns="http://www.iontrading.com/RFML/v1.0" xmlns="http://www.iontrading.com/RFML/v1.0" targetNamespace="http://www.iontrading.com/RFML/v1.0" elementFormDefault="qualified">
+	<xs:complexType name="SingleValue">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A type with single string value.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="name" type="xs:string"/>
+			<xs:element name="value" type="xs:string"/>
+			<xs:element name="tag" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MultiValue">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A type with multiple string values.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="name" type="xs:string"/>
+			<xs:element name="value" type="xs:string" maxOccurs="unbounded"/>
+			<xs:element name="tag" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+  <xs:complexType name="Keyword">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A type defining a keyword.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="retval" type="SingleValue" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="argument" type="SingleValue" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>  
+  <xs:complexType name="TestCase">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A type defining a test case.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="setting" type="MultiValue" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="keyword" type="Keyword" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TestSuite">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A type defining a test suite.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="suiteName" type="xs:string"/>
+			<xs:element name="setting" type="MultiValue" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="variable" type="MultiValue" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="testCase" type="TestCase" maxOccurs="unbounded"/>
+      <xs:element name="keyword" type="Keyword" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="row" type="TestCaseRow" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="lastUpdate" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="testSuite" type="TestSuite">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A component describing a test suite.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+  <xs:complexType name="TestCaseRow">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A type defining a test case row.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="column" type="SingleValue" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Category">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A type defining a test suite category.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="item" type="SingleValue" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="category" type="Category" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="tag" type="xs:string"/>
+    </xs:sequence>    
+  </xs:complexType>
+  <xs:complexType name="TableOfContents">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A type defining a table of contents.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="category" type="Category" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="item" type="SingleValue" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="lastUpdate" type="xs:dateTime"/>
+    </xs:sequence>    
+  </xs:complexType>
+  <xs:element name="tableOfContents" type="TableOfContents">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A component describing a table of contents.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>
